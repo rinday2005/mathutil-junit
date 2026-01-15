@@ -1,14 +1,12 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-
 package com.ntpnhi.lab01.core;
 
 /**
  *
  * @author ADMIN
  */
-
 public class InsuranceClaim {
 
     private String claimId;
@@ -25,8 +23,11 @@ public class InsuranceClaim {
      * @throws IllegalArgumentException if amount is zero or negative
      */
     public InsuranceClaim(String id, double claimAmount) {
+        if (id == null || id.isEmpty()) {
+            throw new IllegalArgumentException("Claim ID cannot be null or empty");
+        }
         if (claimAmount <= 0) {
-            throw new IllegalArgumentException("Claim amount must be positive.");
+            throw new IllegalArgumentException("Claim amount must be greater than 0");
         }
         this.claimId = id;
         this.amount = claimAmount;
@@ -39,12 +40,17 @@ public class InsuranceClaim {
      * @param statusUpdate New status to apply
      * @return true if update was applied, false otherwise
      */
-    public boolean processClaim(String statusUpdate) {
-        if ("Pending".equals(this.claimStatus)) {
-            this.claimStatus = statusUpdate;
-            return true;
+    public boolean processClaim(String status) {
+        if (status == null) {
+            throw new IllegalArgumentException("Status cannot be null");
         }
-        return false;
+
+        if (!"Pending".equals(this.claimStatus)) {
+            return false;
+        }
+
+        this.claimStatus = status;
+        return true;
     }
 
     /**
@@ -93,4 +99,3 @@ public class InsuranceClaim {
                 + '}';
     }
 }
-
